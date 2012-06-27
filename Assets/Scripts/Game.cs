@@ -29,7 +29,7 @@ public class Game : MonoBehaviour
 		m_GUICamera.AddComponent<Camera>();
 		m_GUICamera.transform.position = new Vector3(0, -2000, 0);
 		m_GUICamera.camera.depth = 1;
-		m_GUICamera.camera.backgroundColor = Color.black;
+		m_GUICamera.camera.backgroundColor = Color.green;
 		m_GUICamera.transform.parent = gameObject.transform;
 		
 		m_ProjectionCamera = new GameObject();
