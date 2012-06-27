@@ -15,7 +15,7 @@ public class Game : MonoBehaviour
 	//*******************************//
 	// Private Member Data           //
 	//*******************************//
-	GameObject m_GUICamera, m_ProjectionCamera, m_TopDownCamera, m_DirectionalLight, m_Plane;
+	GameObject m_GUICamera, m_ProjectionCamera, m_TopDownCamera, m_DirectionalLight, m_Plane, m_Sphere;
 	
 	//*******************************//
 	// Unity Methods                 //
@@ -62,6 +62,9 @@ public class Game : MonoBehaviour
 		m_DirectionalLight.transform.Rotate(new Vector3(90,0,0));	
 		
 		m_Plane = (GameObject)Instantiate(Resources.Load("plane"));
+		
+		m_Sphere = (GameObject)Instantiate(Resources.Load("sphere OF DOOM!!!"));
+		m_Sphere.transform.position = new Vector3(0, 5, 0);
 		
 		Debug.Log("Setup");
 	}
