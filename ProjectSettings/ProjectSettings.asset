@@ -126,7 +126,6 @@ PlayerSettings:
   ps3TrophyCommId: 
   ps3TrophyPackagePath: 
   ps3ReservedMemorySizeMB: 2
-  ps3ReservedHDDSizeMB: 128
   flashStrippingLevel: 2
   firstStreamedLevelWithResources: 0
   unityRebuildLibraryVersion: 9
