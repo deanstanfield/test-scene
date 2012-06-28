@@ -63,17 +63,25 @@ struct DynamicHazardDetails
 
 public static class ReplayManager
 {
-//	static Dictionary<GameObject, StaticDetails[]> m_StaticWatchlist = new Dictionary<GameObject, StaticDetails[]>();
+	static Dictionary<GameObject, StaticDetails> m_StaticWatchlist = new Dictionary<GameObject, StaticDetails>();
 	//static Dictionary<GameObject,   DynamicDetails[]> m_DynamicWatchlist = new Dictionary<GameObject, DynamicDetails[]>();
 	static Dictionary<GameObject, PlayableDynamicDetails[]> m_PlayableDynamicWatchlist = new Dictionary<GameObject, PlayableDynamicDetails[]>();
 	//static Dictionary<GameObject, StaticHazardDetails[]> m_StaticHazardsWatchlist = new Dictionary<GameObject, StaticHazardDetails[]>();
 	//static Dictionary<GameObject, DynamicHazardDetails[]> m_DynamicHazardsWatchlist = new Dictionary<GameObject, DynamicHazardDetails[]>();
 	
-	public static void SignupTo(int ObjectType, GameObject g)
+	public static void SignupTo(SignUp.ObjectType objectType, GameObject g)
 	{
-		switch(ObjectType)
+		switch(objectType)
 		{
-			case 2:
+			case SignUp.ObjectType.Static:
+				StaticDetails SD; //2 power 16
+				SD.m_sAnimationName = g.GetComponent<GooberScript_Test>().GetAnimationName();
+				SD.m_fAnimationFrameNumber = 0;
+				m_StaticWatchlist.Add(g, SD);
+			break;
+			case SignUp.ObjectType.Dynamic:
+			break;
+			case SignUp.ObjectType.PlayableDynamic:
 				PlayableDynamicDetails[] PDD = new PlayableDynamicDetails[65536]; //2 power 16
 				PDD[0].m_sAnimationName = "Rotate";
 				PDD[0].m_fAnimationFrameNumber = 0;
@@ -84,6 +92,10 @@ public static class ReplayManager
 				PDD[0].m_Velocity = new Vector3(0,0,0);
 				PDD[0].m_iFrame = TimeLine.GetFrameCount();
 				m_PlayableDynamicWatchlist.Add(g, PDD);
+			break;
+			case SignUp.ObjectType.StaticHazard:
+			break;
+			case SignUp.ObjectType.DynamicHazard:
 			break;
 		}
 	}

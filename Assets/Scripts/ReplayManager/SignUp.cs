@@ -12,10 +12,13 @@ using System.Collections;
 
 public class SignUp : MonoBehaviour
 {
-	public int ObjectType = 2;
+	[HideInInspector]
+	public enum ObjectType { Static, Dynamic, PlayableDynamic, StaticHazard, DynamicHazard};
+	
+	public ObjectType objectType = ObjectType.Static;
 	
 	void Start()
 	{
-		ReplayManager.SignupTo(ObjectType, gameObject);	
+		ReplayManager.SignupTo(objectType, gameObject);	
 	}
 }

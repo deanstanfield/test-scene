@@ -3,19 +3,21 @@ using System.Collections;
 
 public class GooberScript_Test : MonoBehaviour 
 {
-	//string[] m_sSaveAnimationName;
+	ArrayList m_SaveAnimationName = new ArrayList();
+	string m_sCurrentAnimation;
 	//float m_fRandom = Random.Range(1.0f, 10.0f);
-	//int m_Counter;
+	int m_Counter;
 	
 	//awake because it needs calling before TimeLine.Init() (ATM)
 	void Awake()
 	{
 		Messenger.AddListener("animated", AnimateButton);
-				
-		/*foreach(AnimationState states in animation)
+		
+		foreach(AnimationState states in animation)
 		{		
-			m_sSaveAnimationName[m_Counter++] = states.name;
-		}*/
+			m_SaveAnimationName.Add(states.name);
+		}
+		m_sCurrentAnimation = (string)m_SaveAnimationName[0];
 	}
 	
 	void OnGUI()
@@ -27,20 +29,13 @@ public class GooberScript_Test : MonoBehaviour
 	{
 		if(GUI.Button(new Rect(0, Screen.height - 50, 100, 50), "Animate"))
 		{
-			foreach(AnimationState states in animation)
-			{				
-				Debug.Log (states.name);
-			}
 			animation.Play();
 			TimeLine.SetEventOccured(true);
 		}
 	}
 	
-	/*public string[] GetAnimationName()
+	public string GetAnimationName()
 	{
-		return m_sSaveAnimationName;
-	}*/
-	
-	
-	
+		return m_sCurrentAnimation;
+	}
 }
