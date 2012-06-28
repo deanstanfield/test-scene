@@ -28,5 +28,12 @@ public class ReplayManagerTestScript : MonoBehaviour
 		m_DirectionalLight.transform.Rotate(new Vector3(90,0,0));	
 		
 		gameObject.AddComponent<SceneManager>();
+		
+		
+	}
+	
+	void Update()
+	{
+		
 	}
 }

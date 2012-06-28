@@ -36,7 +36,7 @@ public class SceneManager : MonoBehaviour
 			
 			//Add control classes
 			if(m_MoveableObjects[i].tag == "PlayableDynamic")
-			{
+			{				
 				m_MoveableObjects[i].AddComponent<CubeControl_Test>(); //added controller
 				m_MoveableObjects[i].GetComponent<CubeControl_Test>().SetPosition(m_MoveableObjects[i].transform.position);
 			}

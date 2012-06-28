@@ -34,7 +34,7 @@ public static class TimeLine
 		m_CheckpointTimes.Clear();
 		
 		//m_ListOfObjects = SceneManager.GetListOfObjects();//ListOfObjects;
-		ReplayManager.Init(/*m_ListOfObjects*/); //copy hashtable into replaymanager
+		ReplayManager.Init(); //copy hashtable into replaymanager
 		
 	}
 	
@@ -55,14 +55,14 @@ public static class TimeLine
 		if(m_bStreamingSession && m_bActiveSession)
 		{ 
 			//recording
-			ReplayManager.FixedUpdate(/*m_ListOfObjects*/); 
+			ReplayManager.FixedUpdate(); 
 			m_iFrameCount++;
 			m_fTime = Time.deltaTime;
 		}
 		else if(!m_bStreamingSession && m_bActiveSession) 
 		{
 			//playback
-			ReplayManager.ReplayPlayableDynamic(/*m_ListOfObjects*/);
+			ReplayManager.ReplayPlayableDynamic();
 		}
 	}
 	
