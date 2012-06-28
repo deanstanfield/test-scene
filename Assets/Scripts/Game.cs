@@ -62,6 +62,7 @@ public class Game : MonoBehaviour
 		m_DirectionalLight.transform.Rotate(new Vector3(90,0,0));	
 		
 		m_Plane = (GameObject)Instantiate(Resources.Load("plane"));
+		m_Plane.name = "Plane";
 		
 		m_Sphere = (GameObject)Instantiate(Resources.Load("sphere OF DOOM!!!"));
 		m_Sphere.transform.position = new Vector3(0, 5, 0);
