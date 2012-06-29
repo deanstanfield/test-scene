@@ -31,6 +31,7 @@ public class GooberScript_Test : MonoBehaviour
 		{
 			animation.Play();
 			TimeLine.SetEventOccured(true);
+			SceneManager.GetTimeNotch().Add(TimeLine.GetFrameCount());
 		}
 	}
 	

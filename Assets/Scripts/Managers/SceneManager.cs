@@ -18,6 +18,10 @@ public class SceneManager : MonoBehaviour
 
 	//Playback
 	bool m_bPlayback;
+	bool m_ShowRealTimeLine;
+	
+	//GUI Timeline Notches
+	static ArrayList m_Notches = new ArrayList();
 	
 	void Start()
 	{
@@ -75,6 +79,10 @@ public class SceneManager : MonoBehaviour
 			else
 				PlaybackManager.SetCurrentFrame(PlaybackManager.GetCurrentFrame() + 1);
 		}
+		else if(TimeLine.GetActiveSession() && TimeLine.GetStreamingSession())
+		{
+			PlaybackManager.setTotalFrames(TimeLine.GetFrameCount());
+		}
 	}
 	
 	void Update()
@@ -94,11 +102,20 @@ public class SceneManager : MonoBehaviour
 		{
 			//Setup playback manager 
 			PlaybackManager.Init();
+			m_ShowRealTimeLine = true;
 			TimeLine.SetActiveSession(true);
 			TimeLine.SetStreamingSession(false);
 		}
-		
-		PlaybackManager.SetCurrentFrame((int)GUI.HorizontalSlider(new Rect(110, 25, Screen.width - 120, 30), PlaybackManager.GetCurrentFrame(), 0.0f, PlaybackManager.GetTotalFrames()));
+			
+		//if(m_ShowRealTimeLine)
+		//{
+			float[] notch = m_Notches.ToArray(typeof(float)) as float[];
+			PlaybackManager.SetCurrentFrame((int)GUIHelp.GUITimeline(new Rect(110, 25, Screen.width - 120, 30), PlaybackManager.GetCurrentFrame(), 0.0f, PlaybackManager.GetTotalFrames(), notch));
+		/*}
+		else
+		{
+			PlaybackManager.SetCurrentFrame((int)GUI.HorizontalSlider(new Rect(110, 25, Screen.width - 120, 30), PlaybackManager.GetCurrentFrame(), 0.0f, PlaybackManager.GetTotalFrames()));
+		}*/
 	}
 	
 	/*void UpdateGameObjects(Dictionary<int, GameObject> table)
@@ -109,6 +126,11 @@ public class SceneManager : MonoBehaviour
 	public static Dictionary<int, GameObject> GetListOfObjects()
 	{
 		return m_ListOfObjects;	
+	}
+	
+	public static ArrayList GetTimeNotch()
+	{
+		return m_Notches;
 	}
 	
 	
