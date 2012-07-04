@@ -1,209 +1,178 @@
-/// <summary>
-///	Name: ReplayManager.cs
-/// Author: Kyle Hatch
-/// Date Created: 18/06/2012
-/// Date Edited: 19/06/2012 by Kyle Hatch
-/// 
-/// Description: Controls the replay information, reads and saves the data here
-/// </summary>
- 
+// ReplayManager.cs
+// Description
+// Dean Stanfield & Kyle Hatch
+
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System;
 
-//Examples: Marshalls.
-struct StaticDetails 
-{
-	public string m_sAnimationName;
-	public float m_fAnimationFrameNumber;
-}
-
-//Examples: 
-struct DynamicDetails 
-{
-	public string m_sAnimationName;
-	public float m_fAnimationFrameNumber;
-	public Vector3 m_Position;
-	public Vector3 m_Scale;
-	public Quaternion m_Rotation;
-	public Vector3 m_Velocity;
-	public Vector3 m_Direction;
-}
-
-//Examples: joystick controlled airplane
-struct PlayableDynamicDetails 
-{
-	public string m_sAnimationName;
-	public float m_fAnimationFrameNumber;
-	public Vector3 m_Position;
-	public Vector3 m_Scale;
-	public Quaternion m_Rotation;
-	public Vector3 m_Velocity;
-	public Vector3 m_Direction;
-	public int m_iFrame;
-}
-
-//Examples: Cones
-struct StaticHazardDetails 
-{
-	public int m_iObjectID;
-	public bool m_bAction;
-	public int m_iFrame;
-}
-
-//Examples: Moving car
-struct DynamicHazardDetails 
-{
-	public int m_iObjectID;
-	public bool m_bIn;
-	public bool m_bOut;
-	public int m_iFrame;
-}
-
-public static class ReplayManager
-{
-	static Dictionary<GameObject, StaticDetails> m_StaticWatchlist = new Dictionary<GameObject, StaticDetails>();
-	//static Dictionary<GameObject,   DynamicDetails[]> m_DynamicWatchlist = new Dictionary<GameObject, DynamicDetails[]>();
-	static Dictionary<GameObject, PlayableDynamicDetails[]> m_PlayableDynamicWatchlist = new Dictionary<GameObject, PlayableDynamicDetails[]>();
-	//static Dictionary<GameObject, StaticHazardDetails[]> m_StaticHazardsWatchlist = new Dictionary<GameObject, StaticHazardDetails[]>();
-	//static Dictionary<GameObject, DynamicHazardDetails[]> m_DynamicHazardsWatchlist = new Dictionary<GameObject, DynamicHazardDetails[]>();
+public static class ReplayManager 
+{	
+	#region Recording properties    
+	//Dictionary of all recorded states that have been recorded
+	static Dictionary<string, IRecordable[]> m_DictOfRecords = new Dictionary<string, IRecordable[]>();
 	
-	public static void SignupTo(SignUp.ObjectType objectType, GameObject g)
-	{
-		switch(objectType)
+	//Max number of save states for each frame
+    static int m_iMaxRecordedPerFrame = 150;
+	//List of recorded save states. This is added to the Dictionay of All objects at the end of each frame.
+    static IRecordable[] m_ObjectsUpdatedThisFrame = new IRecordable[m_iMaxRecordedPerFrame];
+	
+	//Counter for how many objects have requested to create save states this frame
+	static int m_iAddedThisFrame = 0;
+    #endregion
+	
+	#region ReplayManager Properties
+    static bool isStreaming = false;				//Is the replay manager streaming data in? (i.e Recording) If isStreaming is false the player is playing back a recording
+    static bool sessionActive = false;				//Is the replay manager active?
+	#endregion
+	
+	#region Getters and Setters
+	/// <summary>
+	/// Gets or sets a value indicating whether this <see cref="ReplayManager"/> Is the ReplayManager currently active.
+	/// </summary>
+	/// <value>
+	/// <c>true</c> if session active; otherwise, <c>false</c>.
+	/// </value>
+    public static bool SessionActive
+    {
+        get { return sessionActive; }
+        set { sessionActive = value; }
+    }
+	
+	/// <summary>
+	/// Gets or sets a value indicating whether this <see cref="ReplayManager"/> Is the ReplayManager currently streaming in recorded data
+	/// </summary>
+	/// <value>
+	/// <c>true</c> if true the ReplayManager is recording; otherwise, the replay manager is replaying a recording <c>false</c>.
+	/// </value>
+    public static bool StreamingIn
+    {
+        get { return isStreaming; }
+        set { isStreaming = value; }
+    }
+	#endregion
+	
+	#region Saving states
+	/// <summary>
+	/// Saves the state of a given object using the IRecordable class
+	/// </summary>
+	/// <param name='dataStruct'>
+	/// The overrided IRecordable with the current stored data for this object
+	/// </param>
+    public static void SaveState(IRecordable dataStruct)
+    {	
+		//Safety just incase this is called while not recording
+		if(!SessionActive || !isStreaming)
+			return;
+		
+		//Stop multiple adds of item... check if this frame exists
+		if (!IsInFrame(dataStruct)) //Check if this dataStruct exists in this frame (The saved object has already been saved)
 		{
-			case SignUp.ObjectType.Static:
-				StaticDetails SD; //2 power 16
-				SD.m_sAnimationName = g.GetComponent<GooberScript_Test>().GetAnimationName();
-				SD.m_fAnimationFrameNumber = 0;
-				m_StaticWatchlist.Add(g, SD);
-			break;
-			case SignUp.ObjectType.Dynamic:
-			break;
-			case SignUp.ObjectType.PlayableDynamic:
-				PlayableDynamicDetails[] PDD = new PlayableDynamicDetails[65536]; //2 power 16
-				PDD[0].m_sAnimationName = "Rotate";
-				PDD[0].m_fAnimationFrameNumber = 0;
-				PDD[0].m_Position = g.transform.position;
-				PDD[0].m_Rotation = g.transform.rotation;
-				PDD[0].m_Scale = g.transform.localScale;
-				PDD[0].m_Direction = new Vector3(0,0,0);
-				PDD[0].m_Velocity = new Vector3(0,0,0);
-				PDD[0].m_iFrame = TimeLine.GetFrameCount();
-				m_PlayableDynamicWatchlist.Add(g, PDD);
-			break;
-			case SignUp.ObjectType.StaticHazard:
-			break;
-			case SignUp.ObjectType.DynamicHazard:
-			break;
+            m_ObjectsUpdatedThisFrame[m_iAddedThisFrame] = dataStruct;
+            m_iAddedThisFrame++;
 		}
-	}
+    }
 	
-	public static void Init()
-	{
-		/*foreach(KeyValuePair<int, GameObject> go in SceneManager.GetListOfObjects())
-		{
-			//split up which items go into which list, later on we can check to see if
-			//the gameobject is contained into the list.
-			GameObject g = go.Value;
-			/*if(g.tag == "StaticObj")
-			{
-//				StaticDetails[] SD = new StaticDetails[65536]; //2 power 16
-//				SD[0].m_sAnimationName = g.GetComponent<GooberScript>().GetAnimationName();
-//				SD[0].m_fAnimationFrameNumber = g.animation[SD[0].m_sAnimationName].length;
-//				m_StaticWatchlist.Add(g, SD);
-			}
-			else if(g.tag == "DynamicObj")
-			{
-			}		
-			else if(g.tag == "PlayableDynamic")
-			{		
-				PlayableDynamicDetails[] PDD = new PlayableDynamicDetails[65536]; //2 power 16
-				PDD[0].m_sAnimationName = "Rotate";
-				PDD[0].m_fAnimationFrameNumber = 0;
-				PDD[0].m_Position = g.transform.position;
-				PDD[0].m_Rotation = g.transform.rotation;
-				PDD[0].m_Scale = g.transform.localScale;
-				PDD[0].m_Direction = new Vector3(0,0,0);
-				PDD[0].m_Velocity = new Vector3(0,0,0);
-				PDD[0].m_iFrame = TimeLine.GetFrameCount();
-				m_PlayableDynamicWatchlist.Add(g, PDD);
-			}
-			else if(g.tag == "StaticHazard")
-			{
-			}
-			else if(g.tag == "DynamicHazard")
-			{
-			}
-		}*/
-	}
+	/// <summary>
+    /// Check to see if this Data is in the current frame already
+    /// Stops duplicate entries, returns true is data is already in the list
+    /// </summary>
+    /// <param name="dataStruct"></param>
+    /// <returns></returns>
+    private static bool IsInFrame(IRecordable dataStruct)
+    {
+        for (int i = 0; i < m_iAddedThisFrame; i++)
+        {
+            if (m_ObjectsUpdatedThisFrame[i] == dataStruct)
+                return true;
+        }
+        return false;
+    }
 	
-	//Only called on button presses
-	public static void SaveState() 
-	{
-		/*foreach(KeyValuePair<int, GameObject> go in SceneManager.GetListOfObjects())
+	/// <summary>
+    /// This should be called once each fixed Update
+    /// This method takes all the events fired this frame and stores them against the timeline
+    /// </summary>
+    /// <param name="snapShot"></param>
+    public static void FixedUpdate()
+    {
+		//Safety just incase this is called while not recording
+		if(!SessionActive || !isStreaming)
+			return;
+		
+        //Add to Dictionary all structures in the objects updated this frame list
+		if(m_iAddedThisFrame > 0)
 		{
-			GameObject g = go.Value;
-			if(g.tag == "StaticObj")
-			{
-				//array???
-				//StaticDetails SD; //2 power 16
-				//SD.m_sAnimationName = g.GetComponent<GooberScript_Test>().GetAnimationName();
-				//SD.m_fAnimationFrameNumber = g.animation[SD.m_sAnimationName].length;
-				//m_StaticWatchlist.Add(g, SD);
-			}
-		}*/
-	}
-	
-	public static void FixedUpdate()
-	{
-		List<GameObject> keys = new List<GameObject>(m_PlayableDynamicWatchlist.Keys);
-		foreach(GameObject key in keys)
-		{
-			PlayableDynamicDetails[] PDD;
-			if(m_PlayableDynamicWatchlist.TryGetValue(key, out PDD)) 
-			{
-				int length = TimeLine.GetFrameCount();
-				PDD[length].m_sAnimationName = "Rotate";
-				PDD[length].m_fAnimationFrameNumber = 0;
-				PDD[length].m_Position = key.transform.position;
-				PDD[length].m_Rotation = key.transform.rotation;
-				PDD[length].m_Scale = key.transform.localScale;
-				PDD[length].m_Direction = new Vector3(0,0,0);
-				PDD[length].m_Velocity = new Vector3(0,0,0);
-				PDD[length].m_iFrame = TimeLine.GetFrameCount();
-				m_PlayableDynamicWatchlist[key] = PDD;	
-			}
+			m_DictOfRecords.Add(TimeLine.GetFrameCount().ToString(), m_ObjectsUpdatedThisFrame);
+			m_ObjectsUpdatedThisFrame = new IRecordable[m_iMaxRecordedPerFrame];
 		}
-	}
+		
+        //Clear list
+        m_iAddedThisFrame = 0;
+    }
+	#endregion
 	
-	public static void ReplayPlayableDynamic()
-	{	
-		foreach(KeyValuePair<GameObject, PlayableDynamicDetails[]> go in m_PlayableDynamicWatchlist)
-		{
-			GameObject g = go.Key;
-			PlayableDynamicDetails[] PDD = m_PlayableDynamicWatchlist[g];
-			g.transform.position = PDD[PlaybackManager.GetCurrentFrame()].m_Position;
-			g.transform.rotation = PDD[PlaybackManager.GetCurrentFrame()].m_Rotation;
-			g.transform.localScale = PDD[PlaybackManager.GetCurrentFrame()].m_Scale;
-}
-	}
-	
-	public static void TrimWatchLists()
-	{
-		//Playable Dynamics
-		List<GameObject> keys = new List<GameObject>(m_PlayableDynamicWatchlist.Keys);
-		foreach(GameObject key in keys)
-		{
-			PlayableDynamicDetails[] OrginalPDDetails, TrimmedPDDetails;
-			TrimmedPDDetails = new PlayableDynamicDetails[PlaybackManager.GetTotalFrames()];
+    /// <summary>
+    /// This should be called once each fixed update
+    /// This method streams the playback data to the correct game objects in the scene
+    /// </summary>
+    public static void StreamRecording()
+    {
+    	int currentFrame = PlaybackManager.GetCurrentFrame();
+		
+		//Check to see if this frame is in the Dictionary... if not return as there is no data to stream
+		if(!m_DictOfRecords.ContainsKey(currentFrame.ToString()))
+			return;
+		
+        IRecordable[] updatedThisFrame = new IRecordable[m_DictOfRecords[currentFrame.ToString()].Length];
+        updatedThisFrame = m_DictOfRecords[currentFrame.ToString()];
+		//Debug.Log("Num frame: " + currentFrame.ToString());
 			
-			if(m_PlayableDynamicWatchlist.TryGetValue(key, out OrginalPDDetails)) 
-			{
-				Array.Copy(OrginalPDDetails, 0, TrimmedPDDetails, 0, PlaybackManager.GetTotalFrames());
-				m_PlayableDynamicWatchlist[key] = TrimmedPDDetails;
-			}
-		}
-	}
+        //Foreach value in list... get gameobject and call its Restore state method passing over its structure of data
+        for(int i = 0; i < updatedThisFrame.Length; i++)
+        {
+            if (updatedThisFrame[i] == null)
+                Debug.Log("Object " + updatedThisFrame[i].objectName + " is null");
+            updatedThisFrame[i].Deserialise(updatedThisFrame[i]);
+        }
+    }
+	
+	/// <summary>
+	/// Trims the watch lists. Optimisation
+	/// </summary>
+    public static void TrimWatchLists()
+    {
+        List<string> keys = new List<string>(m_DictOfRecords.Keys);
+        
+        foreach (string k in keys)
+        {
+            int count = 0;
+            IRecordable[] original;     //The original values
+            IRecordable[] trim;         //The trimmed list
+			
+            //Count the array until we hit a null
+            if (m_DictOfRecords.TryGetValue(k, out original))
+            {
+                //There is data inside this index
+                for (int i = 0; i < original.Length; i++)
+                {
+                    if(original[i] != null)
+                        count++;
+                    else
+                        break;
+                }
+                //Create a 'trimmed' list of the exact size
+                trim = new IRecordable[count];
+
+                //copy the data into the the trimed list
+                Array.Copy(original, 0, trim, 0, count);
+
+                //Copy trimmed list back into the dictionary
+                m_DictOfRecords[k] = trim;
+            }
+
+        }
+    }
+	
 }

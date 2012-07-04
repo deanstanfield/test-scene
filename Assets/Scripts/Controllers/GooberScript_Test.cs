@@ -17,7 +17,7 @@ public class GooberScript_Test : MonoBehaviour
 		{		
 			m_SaveAnimationName.Add(states.name);
 		}
-		m_sCurrentAnimation = (string)m_SaveAnimationName[0];
+		m_sCurrentAnimation = (string)m_SaveAnimationName[2];
 	}
 	
 	void OnGUI()
@@ -29,7 +29,7 @@ public class GooberScript_Test : MonoBehaviour
 	{
 		if(GUI.Button(new Rect(0, Screen.height - 50, 100, 50), "Animate"))
 		{
-			animation.Play();
+			animation.Play(m_sCurrentAnimation);
 			TimeLine.SetEventOccured(true);
 			SceneManager.GetTimeNotch().Add(TimeLine.GetFrameCount());
 		}

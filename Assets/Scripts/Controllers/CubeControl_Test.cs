@@ -14,10 +14,12 @@ public class CubeControl_Test : MonoBehaviour
 {
 	float m_fSpeed;
 	Vector3 m_Position;
+	float r;
 	
 	// Use this for initialization
 	void Start () 
 	{
+		r = Random.Range(-10, 10);
 		m_fSpeed = 5.5f;	
 		Messenger.AddListener<float>("move cube", MoveObject);
 	}
@@ -25,11 +27,14 @@ public class CubeControl_Test : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		if(TimeLine.GetStreamingSession())
+		if(ReplayManager.StreamingIn)
 		{
 			GetInput();
 			Messenger.Broadcast<float>("move cube", m_fSpeed * Time.deltaTime);
+			gameObject.transform.Rotate(new Vector3(1 * r, 0, 1 * r));
 		}
+		
+		
 	}
 	
 	void MoveObject(float vec_value)

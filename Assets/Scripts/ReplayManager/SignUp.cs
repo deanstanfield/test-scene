@@ -16,9 +16,36 @@ public class SignUp : MonoBehaviour
 	public enum ObjectType { Static, Dynamic, PlayableDynamic, StaticHazard, DynamicHazard};
 	
 	public ObjectType objectType = ObjectType.Static;
+
+    public IRecordable myRecorder;
+	Vector3 lastPosition = Vector3.zero;
+
+    void Start()
+    {
+        myRecorder = new DynamicRecord();
+    }
 	
-	void Start()
-	{
-		ReplayManager.SignupTo(objectType, gameObject);	
-	}
+    void FixedUpdate()
+    {
+		if(ReplayManager.SessionActive && ReplayManager.StreamingIn)
+		{
+			if(lastPosition != transform.position)
+			{
+				DynamicRecord dr = new DynamicRecord();
+				
+				dr.objectName = gameObject.name;
+				dr.gameObject = gameObject;
+		        dr.frameNumber = TimeLine.GetFrameCount();
+		        dr.animationName = "HELLO";
+		        dr.animationFrameNumber = 0;
+				dr.position = gameObject.transform.position;
+				dr.rotation = gameObject.transform.rotation;
+				
+				ReplayManager.SaveState(dr);
+				
+				//Update last position
+				lastPosition = transform.position;
+			}
+		}
+    }
 }

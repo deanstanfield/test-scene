@@ -18,7 +18,7 @@ public class SceneManager : MonoBehaviour
 
 	//Playback
 	bool m_bPlayback;
-	bool m_ShowRealTimeLine;
+//	bool m_ShowRealTimeLine;
 	
 	//GUI Timeline Notches
 	static ArrayList m_Notches = new ArrayList();
@@ -63,7 +63,7 @@ public class SceneManager : MonoBehaviour
 	{
 		TimeLine.ManualLateUpdate();	
 		
-		if(TimeLine.GetActiveSession() && !TimeLine.GetStreamingSession() && !m_bPlayback)
+		if(ReplayManager.SessionActive && !ReplayManager.StreamingIn && !m_bPlayback)
 		{		
 			m_bPlayback = true;
 		}		
@@ -79,7 +79,7 @@ public class SceneManager : MonoBehaviour
 			else
 				PlaybackManager.SetCurrentFrame(PlaybackManager.GetCurrentFrame() + 1);
 		}
-		else if(TimeLine.GetActiveSession() && TimeLine.GetStreamingSession())
+		else if(ReplayManager.SessionActive && ReplayManager.StreamingIn)
 		{
 			PlaybackManager.setTotalFrames(TimeLine.GetFrameCount());
 		}
@@ -94,17 +94,17 @@ public class SceneManager : MonoBehaviour
 	{
 		if(GUI.Button(new Rect(0, 0, 100, 50), "Stop"))
 		{
-			TimeLine.SetActiveSession(false);
-			TimeLine.SetStreamingSession(false);
+			ReplayManager.SessionActive = false;
+			ReplayManager.StreamingIn = false;
 		}
 		
 		if(GUI.Button(new Rect(0, 60, 100, 50), "Replay"))
 		{
 			//Setup playback manager 
-			PlaybackManager.Init();
-			m_ShowRealTimeLine = true;
-			TimeLine.SetActiveSession(true);
-			TimeLine.SetStreamingSession(false);
+			PlaybackManager.InitialiseReplay();
+			//m_ShowRealTimeLine = true;
+			ReplayManager.SessionActive = true;
+			ReplayManager.StreamingIn = false;
 		}
 			
 		//if(m_ShowRealTimeLine)

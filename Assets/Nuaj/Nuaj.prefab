@@ -1,0 +1,337 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &100000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 3
+  m_Component:
+  - 4: {fileID: 400000}
+  - 114: {fileID: 11400000}
+  m_Layer: 0
+  m_Name: Nuaj
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 0
+--- !u!1002 &100001
+EditorExtensionImpl:
+  serializedVersion: 6
+--- !u!4 &400000
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -20.8034325, y: -70.9060974, z: -178.091217}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!1002 &400001
+EditorExtensionImpl:
+  serializedVersion: 6
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 962ad5e6733e8584182552fdc61403a9, type: 1}
+  m_Name: 
+  m_Camera: {fileID: 0}
+  m_WorldUnit2Kilometer: .00999999978
+  m_PlanetCenterKm: {x: -0, y: -6400, z: -0}
+  m_PlanetNormal: {x: 0, y: 1, z: 0}
+  m_PlanetRadiusKm: 6400
+  m_PlanetAtmosphereAltitudeKm: 100
+  m_ZBufferDiscrepancyThreshold: 200
+  m_UpScaleTechnique: 0
+  m_bShowZBufferDiscrepancies: 0
+  m_Sun: {fileID: 0}
+  m_SunDirection: {x: .175526708, y: .880648196, z: .440055847}
+  m_SunPhi: .379535049
+  m_SunTheta: .493567705
+  m_bSunDrivenDirection: 1
+  m_bSunDrivenDirectionalColor: 1
+  m_bSunDrivenAmbientColor: 1
+  m_SunHue:
+    r: 1
+    g: 1
+    b: 1
+    a: 1
+  m_SunIntensity: 10
+  m_bRenderSoftwareEnvironment: 0
+  m_ShadowMapSize: 512
+  m_ShadowDistanceFar: 7032.91748
+  m_bCastShadowUsingLightCookie: 1
+  m_LightCookieTextureSize: 512
+  m_LightCookieSize: 1000
+  m_bLightCookieSampleAtCameraAltitude: 0
+  m_LightCookieSampleAltitudeKm: .853080571
+  m_LightningBolt0: {fileID: 0}
+  m_LightningBolt1: {fileID: 0}
+  m_LocalCoverage: {fileID: 0}
+  m_TerrainEmissive: {fileID: 0}
+  m_TerrainAlbedo:
+    r: .2902098
+    g: .162976086
+    b: .0152207948
+    a: 1
+  m_ToneMappingType: 0
+  m_LuminanceComputationType: 0
+  m_LuminanceAverageOrMax: 1
+  m_bSceneIsHDR: 0
+  m_SceneLuminanceCorrection: .5
+  m_ToneMappingGammaShadows: 1.5
+  m_ToneMappingGammaHighlights: 2.64028096
+  m_ToneMappingGammaBoundary: 0
+  m_ToneMappingBoostFactor: 1
+  m_ToneMappingMinLuminanceAtDay: .100000001
+  m_ToneMappingMaxLuminanceAtDay: 3
+  m_ToneMappingAdaptationSpeedAtDay: .918032765
+  m_ToneMappingMinLuminanceAtNight: .0199999996
+  m_ToneMappingMaxLuminanceAtNight: 1
+  m_ToneMappingAdaptationSpeedAtNight: .948839664
+  m_ToneMappingParamsReinhard:
+    WhiteLuminance: .100000001
+  m_ToneMappingParamsDrago:
+    MaxDisplayLuminance: 80
+    Bias: .850000024
+  m_ToneMappingParamsFilmic:
+    A: .150000006
+    B: .5
+    C: .100000001
+    D: .200000003
+    E: .0199999996
+    F: .300000012
+    W: .125
+  m_ToneMappingParamsExponential:
+    Exposure: .25
+    Gain: 3.5
+  m_ToneMappingParamsLinear:
+    Factor: 10
+  m_UnitySunColorFactor: .5
+  m_UnityAmbientColorFactor: .5
+  m_bEnableGlowSupport: 1
+  m_bCombineAlphas: 0
+  m_GlowIntensityThreshold: {x: 1.06161141, y: 1.36492896}
+  m_CPUReadBackFramesInterval: 1
+  m_ModulePerspective:
+    m_Name: 41657269616c205065727370656374697665
+    m_bEnabled: 1
+    m_Quality: 1
+    m_DownScaleFactor: .25
+    m_SkyModel: 0
+    m_SkyStepsCount: 12
+    m_UnderCloudsMinStepsCount: 12
+    m_bComputePlanetShadow: 1
+    m_bGodRays: 1
+    m_PlanetRadiusOffsetKm: -5
+    m_DensityRayleigh: .000206837314
+    m_DensityMie: .0053276848
+    m_ScatteringAnisotropy: -.75
+    m_FogLayer:
+      m_bEnabled: 0
+      m_bCastShadow: 1
+      m_AltitudeKm: 0
+      m_ThicknessKm: 2
+      m_FogLocator: {fileID: 0}
+      m_Color:
+        r: 1
+        g: 1
+        b: 1
+        a: 1
+      m_StepsCount: 8
+      m_StepSize: 1
+      m_MieDensityFactor: .0513140336
+      m_DensityRatioBottom: .479999989
+      m_FogMaxDistance: 3.25
+      m_IsotropicSkyFactor: 3
+      m_NoiseTiling: {x: .0500000007, y: .0500000007}
+      m_NoiseAmplitude: .5
+      m_NoiseOffset: 0
+      m_WindForce: .0378619172
+      m_WindDirection: {x: 1, y: 0}
+      m_DownpourStrength: 0
+  m_ModuleCloudLayer:
+    m_Name: 436c6f7564204c61796572
+    m_bEnabled: 1
+    m_Quality: 1
+    m_CloudLayers:
+    - m_bEnabled: 1
+      m_bCastShadow: 1
+      m_AltitudeKm: 12
+      m_ThicknessKm: .150000006
+      m_Coverage: -.00466453284
+      m_Density: .00139165088
+      m_Smoothness: 3
+      m_NormalAmplitude: .0712667853
+      m_CloudColor:
+        r: 1
+        g: 1
+        b: 1
+        a: 1
+      m_NoiseTiling: .00520081772
+      m_FrequencyFactor: 2.30999994
+      m_FrequencyFactorAnisotropy: 1
+      m_AmplitudeFactor: .5
+      m_NoiseOctavesCount: 3
+      m_WindForce: .0757238343
+      m_WindDirection: {x: 1, y: 0}
+      m_EvolutionSpeed: 8
+      m_FactorZeroScattering: 2
+      m_FactorSingleScattering: 30
+      m_FactorDoubleScattering: 800
+      m_FactorMultipleScattering: .5
+      m_FactorSkyColor: .0219999999
+      m_FactorTerrainColor: .0149999997
+      m_TextureNoise0:
+        m_Texture: {fileID: 2800000, guid: f878c42363172aa418cde9d979c35918, type: 1}
+      m_TextureNoise1:
+        m_Texture: {fileID: 2800000, guid: 7583cd08836dd4d46a517fd6db204244, type: 1}
+      m_TextureNoise2:
+        m_Texture: {fileID: 2800000, guid: d55b33390ac58b14e8da6c0b6f706426, type: 1}
+      m_TextureNoise3:
+        m_Texture: {fileID: 2800000, guid: efd77940423f7c94cabb7d13a4dc5fa7, type: 1}
+    m_SelectedLayerIndex: 0
+  m_ModuleCloudVolume:
+    m_Name: 566f6c756d6520436c6f756473
+    m_bEnabled: 1
+    m_Quality: 1
+    m_DownScaleFactor: .25
+    m_CloudLayers:
+    - m_bEnabled: 1
+      m_bCastShadow: 1
+      m_AltitudeKm: 5.09787035
+      m_ThicknessKm: 1.76006401
+      m_Coverage: -.13643235
+      m_Density: .00109451555
+      m_CloudColor:
+        r: 1
+        g: 1
+        b: 1
+        a: 1
+      m_TraceLimiter: .0500000007
+      m_HorizonBlendStart: 40
+      m_HorizonBlendEnd: 101.520737
+      m_HorizonBlendValue: 1
+      m_NoiseTiling: .0181755032
+      m_FrequencyFactor: 3
+      m_AmplitudeFactor: .610000014
+      m_WindForce: .0539465137
+      m_WindDirection: {x: 1, y: 0}
+      m_EvolutionSpeed: 8
+      m_Albedo: .910000026
+      m_DirectionalFactor: 1
+      m_IsotropicFactor: 1
+      m_IsotropicDensity: .572815537
+      m_IsotropicFactorSky: 4
+      m_IsotropicFactorTerrain: .0500000007
+      m_PhaseWeightStrongForward: .0500000007
+      m_PhaseWeightForward: .0500000007
+      m_PhaseWeightBackward: .0199999996
+      m_PhaseWeightSide: .0799999982
+      m_PhaseAnisotropyStrongForward: .949999988
+      m_PhaseAnisotropyForward: .800000012
+      m_PhaseAnisotropyBackward: -.400000006
+      m_PhaseAnisotropySide: -.200000003
+      m_StepsCount: 32
+      m_ShadowMapSize: 512
+      m_ShadowQuality: 0
+      m_bSmoothShadowMap: 1
+      m_SmoothSize: 1.58089459
+    m_SelectedLayerIndex: 0
+  m_ModuleSatellites:
+    m_Name: 536174656c6c69746573
+    m_bEnabled: 1
+    m_Quality: 1
+    m_SatellitesPlanet:
+    - m_bEnabled: 1
+      m_Name: 4d6f6f6e
+      m_DistanceFromPlanetMKm: .300000012
+      m_TiltAngle: -.117441423
+      m_RotationAxisY: {x: -.0256820191, y: .928902984, z: -.369431585}
+      m_RevolutionAngle: -.87266463
+      m_RevolutionPeriod: 100
+      m_bSimulateCycle: 0
+      m_Luminance: 1
+      m_DisplaySize: 30
+      m_AspectRatio: 1
+      m_TextureDiffuse:
+        m_Texture: {fileID: 2800000, guid: 3e5a110264afd8e4eb6545fd6ae46b1d, type: 1}
+      m_TopLeftCorner: {x: 0, y: 0}
+      m_Size: {x: 1, y: 1}
+      m_bSimulateLighting: 1
+      m_bUseSunLuminance: 1
+      m_SurfaceRoughness: .894660234
+      m_TextureNormal:
+        m_Texture: {fileID: 0}
+      m_Albedo:
+        r: .074626863
+        g: .074626863
+        b: .074626863
+        a: 1
+    m_SatellitesStar:
+    - m_bEnabled: 1
+      m_Name: 53756e
+      m_DistanceFromPlanetMKm: 185
+      m_TiltAngle: 0
+      m_RotationAxisY: {x: 0, y: 1, z: -0}
+      m_RevolutionAngle: -.87266463
+      m_RevolutionPeriod: 60
+      m_bSimulateCycle: 0
+      m_Luminance: 1
+      m_DisplaySize: 30
+      m_AspectRatio: 1
+      m_TextureEmissive:
+        m_Texture: {fileID: 2800000, guid: df011df60ab7513419e52385adc50a45, type: 1}
+      m_TopLeftCorner: {x: 0, y: 0}
+      m_Size: {x: 1, y: 1}
+      m_bSunDrivesSatellite: 1
+      m_bSatelliteDrivesSun: 0
+      m_bUseSunLuminance: 1
+    m_SatellitesBackground:
+    - m_bEnabled: 0
+      m_Name: 5374656c6c6172204261636b67726f756e64
+      m_DistanceFromPlanetMKm: 1000
+      m_TiltAngle: .97956115
+      m_RotationAxisY: {x: .707106829, y: .707106829, z: 0}
+      m_RevolutionAngle: -.87266463
+      m_RevolutionPeriod: 60
+      m_bSimulateCycle: 0
+      m_Luminance: .0199999996
+      m_TextureEmissive:
+        m_CubeMap: {fileID: 8900000, guid: 9927e15be56aeaa44ab6ce8de90aa455, type: 1}
+      m_bFlipCubeMapY: 0
+      m_Brightness: 0
+      m_Contrast: 0
+      m_Gamma: 4
+      m_Ambient:
+        r: 1
+        g: 1
+        b: 1
+        a: .156862751
+    m_SelectedSatelliteIndex: 2
+--- !u!1002 &11400001
+EditorExtensionImpl:
+  serializedVersion: 6
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 100000}
+  m_IsPrefabParent: 1
+  m_IsExploded: 1
+--- !u!1002 &100100001
+EditorExtensionImpl:
+  serializedVersion: 6

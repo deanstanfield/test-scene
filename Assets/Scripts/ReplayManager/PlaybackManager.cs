@@ -17,11 +17,11 @@ public class PlaybackManager
 	static int m_iCurrentFrame;
 	static int m_iTotalFrames;
 	
-	public static void Init()
+	public static void InitialiseReplay()
 	{
 		m_iCurrentFrame = 0;
 		m_iTotalFrames = TimeLine.GetFrameCount();
-		ReplayManager.TrimWatchLists(/*SceneManager.GetListOfObjects()*/);
+		ReplayManager.TrimWatchLists();
 	}
 	
 	public static int GetTotalFrames()

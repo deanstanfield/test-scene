@@ -13,8 +13,6 @@ using System.Collections.Generic;
 
 public static class TimeLine
 {
-	static bool m_bActiveSession;		//is the session active
-	static bool m_bStreamingSession;	//replay recording
 	static bool m_bEventOccured;		//has a button been pressed
 	static int m_iFrameCount;			//Current frame count, not active when session isn't
 	
@@ -27,63 +25,39 @@ public static class TimeLine
 	
 	public static void Init()
 	{
-		m_bActiveSession = true;
-		m_bStreamingSession = true;
+        ReplayManager.SessionActive = true;
+        ReplayManager.StreamingIn = true;
 		m_fTime = 0;
 		m_bEventOccured = true;
-		m_CheckpointTimes.Clear();
-		
-		//m_ListOfObjects = SceneManager.GetListOfObjects();//ListOfObjects;
-		ReplayManager.Init(); //copy hashtable into replaymanager
-		
+		m_CheckpointTimes.Clear();		
 	}
 	
 	public static void ManualLateUpdate()
 	{
-		if(!m_bActiveSession)
+		if(!ReplayManager.SessionActive)
 			return;
 				
 		if(m_bEventOccured)	
 		{
-			ReplayManager.SaveState();
+			//ReplayManager.SaveState();
 			m_bEventOccured = false;
 		}
 	}
 	
 	public static void ManualFixedUpdate()
 	{
-		if(m_bStreamingSession && m_bActiveSession)
+		if(ReplayManager.StreamingIn && ReplayManager.SessionActive)
 		{ 
 			//recording
 			ReplayManager.FixedUpdate(); 
 			m_iFrameCount++;
 			m_fTime = Time.deltaTime;
 		}
-		else if(!m_bStreamingSession && m_bActiveSession) 
+        else if (!ReplayManager.StreamingIn && ReplayManager.SessionActive) 
 		{
 			//playback
-			ReplayManager.ReplayPlayableDynamic();
+            ReplayManager.StreamRecording();
 		}
-	}
-	
-	public static bool GetActiveSession()
-	{
-		return m_bActiveSession;
-	}
-	
-	public static void SetActiveSession(bool bActiveSession)
-	{
-		m_bActiveSession = bActiveSession;
-	}
-	
-	public static bool GetStreamingSession()
-	{
-		return m_bStreamingSession;
-	}
-	
-	public static void SetStreamingSession(bool bStreamingSession)
-	{
-		m_bStreamingSession = bStreamingSession;
 	}
 		
 	public static int GetFrameCount()
